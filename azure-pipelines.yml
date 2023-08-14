@@ -7,16 +7,24 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'windows-latest'
 
-jobs:
-- job: BuildAndTest
-  displayName: 'Build and Test'
-  steps:
-  - script: echo Hello, world!
-    displayName: 'Run a one-line script'
+variables:
+  solution: '**/*.sln'
+  buildConfiguration: 'Release'
 
-  - script: |
-      echo Add other tasks to build, test, and deploy your project.
-      echo See https://aka.ms/yaml
-    displayName: 'Run a multi-line script'
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+    version: '6.0.x' # Cambia a la versión de .NET Core que estás utilizando
+
+- script: dotnet restore --configuration $(buildConfiguration)
+  displayName: 'Restore Dependencies'
+
+- script: dotnet build --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build Solution'
+
+#- script: dotnet test --configuration $(buildConfiguration) --no-restore --collect "Code coverage"
+#  displayName: 'Run Tests'
