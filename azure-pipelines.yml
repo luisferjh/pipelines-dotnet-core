@@ -1,5 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Starter pipeline# Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
@@ -17,11 +16,11 @@ stages:
   - job: BuildJob
 
     steps:
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        installationPath: $(Agent.ToolsDirectory)/dotnet
-        version: '6.0.x' # Cambia a la versión de .NET Core que estás utilizando
+    # - task: UseDotNet@2
+    #   inputs:
+    #     packageType: 'sdk'
+    #     installationPath: $(Agent.ToolsDirectory)/dotnet
+    #     version: '6.0.x' # Cambia a la versión de .NET Core que estás utilizando
 
     - script: dotnet restore --configuration $(buildConfiguration)
       displayName: 'Restore Dependencies'
