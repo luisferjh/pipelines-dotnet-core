@@ -9,24 +9,21 @@ pool:
   vmImage: 'windows-latest'
 
 
-stages:
+jobs:
+- job: BuildJob
 
-- stage: Build
-  jobs:
-  - job: BuildJob
+  steps:
+  # - task: UseDotNet@2
+  #   inputs:
+  #     packageType: 'sdk'
+  #     installationPath: $(Agent.ToolsDirectory)/dotnet
+  #     version: '6.0.x' # Cambia a la versión de .NET Core que estás utilizando
 
-    steps:
-    # - task: UseDotNet@2
-    #   inputs:
-    #     packageType: 'sdk'
-    #     installationPath: $(Agent.ToolsDirectory)/dotnet
-    #     version: '6.0.x' # Cambia a la versión de .NET Core que estás utilizando
+  - script: dotnet restore --configuration $(buildConfiguration)
+    displayName: 'Restore Dependencies'
 
-    - script: dotnet restore --configuration $(buildConfiguration)
-      displayName: 'Restore Dependencies'
-
-    - script: dotnet build --configuration $(buildConfiguration) --no-restore
-      displayName: 'Build Solution'
+  - script: dotnet build --configuration $(buildConfiguration) --no-restore
+    displayName: 'Build Solution'
 
 #- script: dotnet test --configuration $(buildConfiguration) --no-restore --collect "Code coverage"
 #  displayName: 'Run Tests'
